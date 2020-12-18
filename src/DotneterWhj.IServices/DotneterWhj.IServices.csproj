@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotneterWhj.Core\DotneterWhj.Core.csproj" />
+    <ProjectReference Include="..\DotneterWhj.Models\DotneterWhj.Models.csproj" />
+  </ItemGroup>
+
+</Project>
