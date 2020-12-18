@@ -1,4 +1,5 @@
-﻿using DotneterWhj.Core.CommonModel;
+﻿using DotneterWhj.Core.Attributes;
+using DotneterWhj.Core.CommonModel;
 using DotneterWhj.IRepository;
 using DotneterWhj.IServices;
 using DotneterWhj.Models;
@@ -51,6 +52,7 @@ namespace DotneterWhj.Services
             return await _baseRepository.IsExistAsync(objId);
         }
 
+        [Caching]
         public async Task<IEnumerable<TEntity>> QueryAsync()
         {
             return await _baseRepository.QueryAsync();

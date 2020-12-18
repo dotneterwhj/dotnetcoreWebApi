@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DotneterWhj.Core.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class CaChingAttribute : Attribute
+    public class CachingAttribute : Attribute
     {
         public int AbsoluteExpiration { get; set; } = 30;
     }
