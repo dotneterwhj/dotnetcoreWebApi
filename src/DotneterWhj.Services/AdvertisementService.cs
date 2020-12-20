@@ -1,4 +1,5 @@
-﻿using DotneterWhj.IRepository;
+﻿using DotneterWhj.Core.Attributes;
+using DotneterWhj.IRepository;
 using DotneterWhj.IServices;
 using DotneterWhj.Models;
 using System;
@@ -15,6 +16,18 @@ namespace DotneterWhj.Services
         public AdvertisementService(IBaseRepository<Advertisement> repository) : base(repository)
         {
 
+        }
+
+        [Caching]
+        public async Task Test1()
+        {
+            return;
+        }
+
+        [Caching]
+        public Advertisement Test2()
+        {
+            return new Advertisement();
         }
     }
 }

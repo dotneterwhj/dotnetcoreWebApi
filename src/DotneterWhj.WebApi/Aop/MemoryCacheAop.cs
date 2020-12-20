@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DotneterWhj.WebApi
 {
-    public class CacheAop : AopBase
+    public class MemoryCacheAop : AopBase
     {
         private readonly IMemoryCache _cache;
 
-        public CacheAop(IMemoryCache cache)
+        public MemoryCacheAop(IMemoryCache cache)
         {
             this._cache = cache;
         }

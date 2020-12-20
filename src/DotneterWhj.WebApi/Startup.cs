@@ -12,6 +12,7 @@ using DotneterWhj.IRepository;
 using DotneterWhj.IServices;
 using DotneterWhj.Repository;
 using DotneterWhj.Services;
+using DotneterWhj.WebApi.Aop;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace DotneterWhj.WebApi
@@ -45,6 +47,20 @@ namespace DotneterWhj.WebApi
             services.AddSingleton(new AppSettings(Configuration));
 
             services.AddSingleton<IMemoryCache, MemoryCache>();
+
+            services.AddTransient<IRedisBasketRepository, RedisBasketRepository>();
+
+            services.AddSingleton<ConnectionMultiplexer>(s =>
+            {
+                //获取连接字符串
+                string redisConfiguration = AppSettings.App(new string[] { "Redis", "ConnectionString" });
+
+                var configuration = ConfigurationOptions.Parse(redisConfiguration, true);
+
+                configuration.ResolveDns = true;
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
 
             services.AddScoped<IAdvertisementService, AdvertisementService>();
             services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
@@ -120,7 +136,8 @@ namespace DotneterWhj.WebApi
             // 注册要通过反射创建的组件
 
             builder.RegisterType<LogAop>();
-            builder.RegisterType<CacheAop>();
+            builder.RegisterType<MemoryCacheAop>();
+            builder.RegisterType<RedisCacheAop>();
 
             builder.RegisterGeneric(typeof(BaseRepository<>)).As(typeof(IBaseRepository<>));
 
@@ -151,7 +168,7 @@ namespace DotneterWhj.WebApi
                           .EnableInterfaceInterceptors()// 引用Autofac.Extras.DynamicProxy;
                                                         // 如果你想注入两个，就这么写  InterceptedBy(typeof(BlogCacheAOP), typeof(BlogLogAOP));
                                                         // 如果想使用Redis缓存，请必须开启 redis 服务，端口号我的是6319，如果不一样还是无效，否则请使用memory缓存 BlogCacheAOP
-                          .InterceptedBy(typeof(LogAop), typeof(CacheAop));//允许将拦截器服务的列表分配给注册。 
+                          .InterceptedBy(typeof(LogAop), typeof(RedisCacheAop));//允许将拦截器服务的列表分配给注册。 
 
                 #endregion
 
