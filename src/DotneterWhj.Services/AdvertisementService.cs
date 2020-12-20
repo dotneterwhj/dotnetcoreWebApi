@@ -17,17 +17,5 @@ namespace DotneterWhj.Services
         {
 
         }
-
-        [Caching]
-        public async Task Test1()
-        {
-            return;
-        }
-
-        [Caching]
-        public Advertisement Test2()
-        {
-            return new Advertisement();
-        }
     }
 }
