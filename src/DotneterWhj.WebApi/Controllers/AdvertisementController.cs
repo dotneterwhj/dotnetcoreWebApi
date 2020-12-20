@@ -21,10 +21,6 @@ namespace DotneterWhj.WebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            await _advertisementService.Test1();
-
-            _advertisementService.Test2();
-
             return Ok(await _advertisementService.QueryAsync());
         }
 
