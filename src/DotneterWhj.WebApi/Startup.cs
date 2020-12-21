@@ -71,6 +71,8 @@ namespace DotneterWhj.WebApi
                      x => x.MigrationsAssembly("DotneterWhj.Migrations"));
              });
 
+            #region 鉴权认证
+
             //读取配置文件
             var audienceConfig = Configuration.GetSection("Audience");
             var symmetricKeyAsBase64 = audienceConfig["Secret"];
@@ -97,11 +99,17 @@ namespace DotneterWhj.WebApi
                 };
             });
 
+            #endregion
+
+            #region 授权
+
             services.AddAuthorization(configure =>
             {
                 configure.AddPolicy("Admin", policy => policy.RequireRole("Admin").Build());
                 configure.AddPolicy("System", policy => policy.RequireRole("System").Build());
             });
+
+            #endregion
 
             services.AddSwaggerGen(c =>
             {
