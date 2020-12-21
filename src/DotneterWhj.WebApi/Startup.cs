@@ -111,6 +111,22 @@ namespace DotneterWhj.WebApi
 
             #endregion
 
+            #region 跨域
+
+            services.AddCors(corsOptions => 
+            {
+                corsOptions.AddPolicy("AllRequest", policy => 
+                {
+                    policy.AllowAnyOrigin();
+                    policy.AllowAnyHeader();
+                    policy.AllowAnyMethod();
+                });
+            });
+
+            #endregion
+
+
+
             services.AddSwaggerGen(c =>
             {
                 var basePath = AppContext.BaseDirectory;
@@ -235,6 +251,7 @@ namespace DotneterWhj.WebApi
                 });
             }
 
+            app.UseCors("AllRequest");
 
             app.UseRouting();
 
